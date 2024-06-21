@@ -1,3 +1,26 @@
+type Error = variant { NotFound : record { msg : text } };
+type Mahasiswa = record {
+  id : nat64;
+  nim : text;
+  updated_at : opt nat64;
+  nama : text;
+  created_at : nat64;
+  angkatan : nat64;
+  jurusan : text;
+};
+type MahasiswaPayload = record {
+  nim : text;
+  nama : text;
+  angkatan : nat64;
+  jurusan : text;
+};
+type Result = variant { Ok : Mahasiswa; Err : Error };
 service : {
-    "greet": (text) -> (text) query;
+  add_mahasiswa : (MahasiswaPayload) -> (opt Mahasiswa);
+  delete_mahasiswa : (nat64) -> (Result);
+  find_mahasiswa_by_name : (text) -> (vec Mahasiswa) query;
+  find_mahasiswa_by_nim : (text) -> (opt Mahasiswa) query;
+  get_mahasiswa : (nat64) -> (Result) query;
+  list_mahasiswa : () -> (vec Mahasiswa) query;
+  update_mahasiswa : (nat64, MahasiswaPayload) -> (Result);
 }
